@@ -1,0 +1,65 @@
+# Spec 3.8 as of Docker engine 19.03.0 (2019-07)
+version: '3.8'
+services:
+
+  # --- Webserver: Nginx
+  nginx:
+    image: nginx:${NGINX_VER}
+    container_name: ${PROJECT_NAME}-nginx
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./app:/var/www
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - app-network
+
+  # --- PHP container: Project files
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: php:latest
+    container_name: ${PROJECT_NAME}-php
+    restart: unless-stopped
+    tty: true
+    working_dir: /var/www
+    volumes:
+      - ./app:/var/www
+      - ./php/php.ini:/usr/local/etc/php/conf.d/php.ini
+      - ./php/www.conf:/usr/local/etc/php-fpm.d/www.conf
+    networks:
+      - app-network
+
+  # --- Database: MariaDB
+  db:
+    image: mariadb:${MARIADB_VER}
+    container_name: ${PROJECT_NAME}-db
+    restart: unless-stopped
+    tty: true
+    ports:
+      - ${DB_PORT}:3306
+    environment:
+      MYSQL_ROOT_USER: 'root'
+      MYSQL_ROOT_PASSWORD: 'root'
+      MYSQL_DATABASE: 'db'
+      MYSQL_USER: 'db'
+      MYSQL_PASSWORD: 'db'
+    volumes:
+      - dbdata:/var/lib/mysql/
+      - ./mysql/my.cnf:/etc/mysql/my.cnf
+    networks:
+      - app-network
+
+# --- Docker Networks
+networks:
+  app-network:
+    driver: bridge
+
+# --- Volumes
+volumes:
+  dbdata:
+    driver: local
