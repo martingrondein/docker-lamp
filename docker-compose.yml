@@ -45,9 +45,9 @@ services:
     environment:
       MYSQL_ROOT_USER: 'root'
       MYSQL_ROOT_PASSWORD: 'root'
-      MYSQL_DATABASE: 'db'
-      MYSQL_USER: 'db'
-      MYSQL_PASSWORD: 'db'
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
     volumes:
       - dbdata:/var/lib/mysql/
       - ./mysql/my.cnf:/etc/mysql/my.cnf
