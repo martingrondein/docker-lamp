@@ -83,4 +83,4 @@ Some articles to support this claim:
 
 ### Q: Is this production ready?
 
-A: Not yet tested in a production environment! But I believe with a few additional security tweaks, it's early good enough to go!
+A: Not yet tested in a production environment! But I believe with a few additional security tweaks and hardening, it may be nearly good enough to go!
