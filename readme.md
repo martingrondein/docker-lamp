@@ -1,4 +1,4 @@
-# Simple, clean & light LEMP (Linux, Nginx, MariaDB, PHP) stack
+# Simple Docker LAMP/LEMP Stack
 
 - Alpine based.
 - Built using latest (yet stable) versions of PHP 8.1 FPM, Nginx, Node, Composer and MariaDB.
